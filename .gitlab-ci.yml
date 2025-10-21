@@ -1,0 +1,15 @@
+stages:
+  - Test
+
+Test:
+  stage: Test
+  tags:
+    - comp2013_2025_production
+  script:
+    - test.sh
+  artifacts:
+    when: always
+    reports:
+      junit: target/surefire-reports/*.xml
+    paths:
+      - target/surefire-reports/
