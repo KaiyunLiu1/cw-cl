@@ -3,17 +3,34 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+/**
+ * A main game canvas responsible for rendering and handling user inputs.
+ * <p>
+ * This class manages the core game loop visuals and input interactions, including:
+ * <ul>
+ *     <li>Rendering full game scene, including gameplay frames and end screen</li>
+ *     <li>Handling keyboard input</li>
+ *     <li>Displaying FPS and game-end screen</li>
+ * </ul>
+ */
 public class canvas extends JComponent implements KeyListener, ActionListener, MouseListener {
     protected double last = System.nanoTime() / 1000000000.;
     protected static Player player;
+    /** a list of active enemy entities currently in the game */
     protected static ArrayList<Enemy> enemies;
+    /** a list of all active bullets fired by the player */
     protected static ArrayList<bullet> activeBullets = new ArrayList<>();
     protected static boolean[] keysPressed = new boolean[4];
     protected static boolean isLastDirectionForwards = true;
     protected static int cameraOffset;
     protected static Font font;
+    /** Image used for rendering cloud when the player jumps. */
     protected static Image cloud;
 
+    /**
+     * Registers this canvas as a KeyListener and MouseListener,
+     * and sets it focusable to allow keyboard input.
+     */
     public canvas() {
         addKeyListener(this);
         addMouseListener(this);
@@ -21,6 +38,12 @@ public class canvas extends JComponent implements KeyListener, ActionListener, M
     }
 
 
+    /**
+     * Renders the entire game frame, including background, player, enemies,
+     * bullets, UI elements, and visual effects.
+     *
+     * @param g Graphics context used to draw this game components
+     */
     public void paint(Graphics g) {
         if (!CyborgPlatform.game.isWon) {
             ArrayList<bullet> bulletsCopy = new ArrayList<bullet>(activeBullets);
@@ -48,7 +71,6 @@ public class canvas extends JComponent implements KeyListener, ActionListener, M
                 g.drawImage(player.image, player.x + 30, player.y, -player.image.getWidth(null), player.image.getHeight(null), null);
             if (player.jumpCounter > 2 && player.velocity < 0)
                 g.drawImage(cloud, player.jumpX, player.jumpY + 42, null);
-
 
             for (Enemy enemy : enemiesCopy) {
                 enemy.doBehavior();
@@ -82,6 +104,13 @@ public class canvas extends JComponent implements KeyListener, ActionListener, M
     }
 
 
+    /**
+     * Draws the end-game screen when the player wins.
+     * <p>Displays background images, congratulatory messages,
+     * the number of attempts taken, and restart/exit instructions.</p>
+     *
+     * @param g Graphics context used to draw this game components
+     */
     public void end(Graphics g) {
 
         g.drawImage(Background.background[0], 0, 0, null);
@@ -112,6 +141,21 @@ public class canvas extends JComponent implements KeyListener, ActionListener, M
 
     }
 
+    /**
+     * Handles keyboard input for controlling the player and game state.
+     * <p>
+     * Responds to specific key presses to perform corresponding actions:
+     * <ul>
+     *     <li><b>A</b> — Move player left</li>
+     *     <li><b>D</b> — Move player right</li>
+     *     <li><b>W</b> — Make the player jump if under the two-jump limit</li>
+     *     <li><b>Space</b> — Fire a bullet</li>
+     *     <li><b>ESC</b> — Restart the game and increment death counter</li>
+     *     <li><b>Enter</b> — Exit the game</li>
+     * </ul>
+     *
+     * @param e a KeyEvent representing the key that was pressed
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -143,7 +187,11 @@ public class canvas extends JComponent implements KeyListener, ActionListener, M
         }
     }
 
-
+    /**
+     * Handles key release events to reset input states and update the jump counter.
+     *
+     * @param e a KeyEvent representing the key that was released
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
