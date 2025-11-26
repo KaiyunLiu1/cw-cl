@@ -6,11 +6,25 @@ import java.util.ArrayList;
 
 import static java.lang.System.nanoTime;
 
+/**
+ * A manager for game resources, entities, and refresh.
+ * Handles player, enemy, and background images,
+ * as well as refreshing the game view at a fixed frame rate.
+ */
 public class Game {
+    /** A flag indicating whether the player has won the game.*/
     public boolean isWon = false;
     public static double startTime;
+    /** Flag indicating whether the game loop is currently running. */
     protected boolean isRunning = true;
 
+    /**
+     * Loads and prepares all images for the game.
+     * <p> This includes sprite, map and background images, which are stored in
+     * static arrays on the appropriate classes</p>
+     *
+     * @throws RuntimeException If any image fails to load
+     */
     public void loadImages(){
 
         try {
@@ -124,7 +138,12 @@ public class Game {
         }
     }
 
-
+    /**
+     * Initializes the game entities for a new session.
+     * <p>Resets game state, creates the player at a starting position,
+     * spawns all enemies at predefined locations, and clears the active
+     * bullets list. Also records the start time of the game.</p>
+     */
     public void spawnEntities() {
         if (CyborgPlatform.game.isWon) Player.deathCounter = 0;
         CyborgPlatform.game.isWon = false;
@@ -147,7 +166,11 @@ public class Game {
         canvas.activeBullets = new ArrayList<>();
     }
 
-
+    /**
+     * Starts the main game loop timer, which repaints the provided canvas at 60 frames per second.
+     *
+     * @param canvas the canvas to repaint each frame
+     */
     public void startTimer(canvas canvas) {
         double t = nanoTime();
         while (isRunning) {

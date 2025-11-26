@@ -1,6 +1,17 @@
 import java.awt.*;
 import java.time.Duration;
 
+/**
+ * Player-controlled entity.
+ * <p>Extends this `entity` to include player-specific behaviors such as
+ * keyboard input handling, shooting control, death tracking,
+ * and sprite-based animations for different states.
+ * </p>
+ *
+ * @author Max L. Wilson
+ * @author Kaiyun Liu
+ * @version %G%
+ */
 public class Player extends entity {
     protected Point checkPoint = new Point(20, 300);
     protected boolean[] keys = canvas.keysPressed;
@@ -8,20 +19,31 @@ public class Player extends entity {
     protected double lastShot;
     protected static int deathCounter;
 
-
     public static Image[] idleSprites;
     public static Image[] runningSprites;
     public static Image[] hurtSprites;
     public static Image shootingSprite;
+    /** image representing an ammo pickup box */
     public static Image ammoBox;
+    /** image representing a regular obstacle */
     public static Image box;
     public static Image heart;
 
+    /**
+     * Constructs a initial player.
+     *
+     * @param x the x-coordinate of the player's initial position
+     * @param y the y-coordinate of the player's initial position
+     * @param health the initial health value of the player
+     */
     public Player(int x, int y, int health) {
         super(idleSprites[0], x, y, health, 10, 30);
     }
 
 
+    /**
+     * Updates the player's movement, gravity, collisions, and action states each frame.
+     */
     public void update() {
         gravity();
         int maxSpeed = 5;
@@ -64,30 +86,49 @@ public class Player extends entity {
     }
 
 
+    /**
+     * Calculates and returns the horizontal camera offset for rendering
+     *
+     * @return {@code true} if the player is facing forward, {@code false} otherwise
+     */
     public int updateCmr() {
         int camX = x - (1280 - 30) / 2;
         camX = Math.max(0, Math.min(camX, MapBlocks.mapWidth - 1280 - 30));
         return camX;
     }
 
-
+    /** Determines this player's facing forward based on keyboard input
+     *
+     *  @return {@code true} if the player should be considered facing forwards,{@code false} otherwise.*/
     public boolean isFacingForwards() {
         if (!keys[0] && keys[1]) return true;
         if (keys[0] && !keys[1]) return false;
         return canvas.isLastDirectionForwards;
     }
 
-
+    /**
+     * Determines whether the player is moving horizontally.
+     *
+     * @return true if the player is moving left or right, false otherwise
+     */
     public boolean isMoving() {
         return (keys[0] || keys[1]);
     }
 
-
+    /**
+     * Determines whether the player is in a jumping state.
+     *
+     * @return true if this player is jumping, false otherwise
+     */
     public boolean isJumping() {
         return (jumpCounter > 0);
     }
 
 
+    /**
+     * Updates the entity's current state based on its movement, grounded status,
+     * damage status, and recent actions.
+     */
     public void updateState() {
         String newState = "idle";
         if (isGrounded && isMoving()) newState = "running";
@@ -99,6 +140,9 @@ public class Player extends entity {
     }
 
 
+    /**
+     * Update the sprite image according to the current state and animation timer.
+     */
     public void animate() {
         switch (state.state) {
             case "idle" -> {
@@ -130,6 +174,9 @@ public class Player extends entity {
     }
 
 
+    /**
+     * Player shooting logic: spawn a new bullet and reduce ammo.
+     */
     public void shoot() {
         if (!justShot && ammo != 0) {
             ammo--;
@@ -150,7 +197,11 @@ public class Player extends entity {
         }
     }
 
-
+    /**
+     * Applies damage to the player from an enemy, reduces health, sets the damaged state, and adjusts knockback and vertical velocity.
+     *
+     * @param e the enemy causing damage
+     */
     public void damage(Enemy e) {
         if (!isDamaged) {
             health--;
@@ -163,6 +214,12 @@ public class Player extends entity {
         }
     }
 
+
+    /**
+     * Draws the player's health, ammo, timer, control instructions, and game-specific messages.
+     *
+     * @param g the Graphics context used for rendering
+     */
 
     public void drawGUI(Graphics g) {
         Font font = canvas.font;
