@@ -14,6 +14,19 @@ public class BackgroundRenderTest {
     /** Stub GraphicsContext object replacing javafx.scene.canvas.GraphicsContext  */
     private static class GraphicsContextStub { }
 
+    /** Local stub for the planned BackgroundRenderer view class. */
+    private static class BackgroundRenderer {
+        private final ImageStub[] layers;
+
+        BackgroundRenderer(ImageStub[] layers) {
+            this.layers = layers;
+        }
+
+        void render(GraphicsContextStub gc, double cameraOffset, double viewportWidth) {
+            // stub — real parallax drawing will be implemented in Task 4
+        }
+    }
+
     @Test
     @Disabled("Stub test — actual rendering behaviour implemented in Task 4")
     void render_stub() {

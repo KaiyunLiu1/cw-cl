@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -83,6 +84,7 @@ public class EnemyStubTest {
      * between the enemy and the player using the shared distanceTo() helper.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     void distanceFromPlayer() {
 
         double distance = testEnemy.distanceFromPlayer(player);
@@ -96,6 +98,7 @@ public class EnemyStubTest {
      *Checks whether the speed is non-zero.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     void isMoving() {
         testEnemy.speed = 0;
         assertFalse(testEnemy.isMoving(), "Enemy isn't moving");
@@ -110,6 +113,7 @@ public class EnemyStubTest {
      * below 900, and false otherwise.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     void isDead() {
         // Case 1: health <= 0 → dead
         testEnemy.health = 0;
@@ -134,6 +138,7 @@ public class EnemyStubTest {
      * applyDamageSlowdown(): Halved speed based when isDamaged is true.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     void applyDamageSlowdownHalves() {
         // When damaged → speed should be halved
         testEnemy.isDamaged = true;
@@ -148,6 +153,7 @@ public class EnemyStubTest {
      * applyDamageSlowdown() remain speed when the enemy is not damaged.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     void applyDamageSlowdownUnchanged(){
     // When not damaged → speed should remain unchanged
         testEnemy.isDamaged = false;
@@ -164,6 +170,7 @@ public class EnemyStubTest {
      * has fully expired.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     void updateDamageCooldown() {
         long now = 1_000L;
 

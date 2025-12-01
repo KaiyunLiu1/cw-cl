@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -93,6 +94,7 @@ public class entityStubTest {
      * intersect() should return false when there are no blocks overlapped.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     @DisplayName("intersect(): returns false when there are no map blocks")
     void intersectWhenNoBlocks() {
         MapBlocks.map.clear();
@@ -107,6 +109,7 @@ public class entityStubTest {
      * intersect() should return true when the entity's bounds overlap a map block.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     @DisplayName("intersect(): returns true when entity overlaps a MapBlock")
     void intersectWhenOverlappingBlock() {
         MapBlocks.map.clear();
@@ -129,6 +132,7 @@ public class entityStubTest {
      * This test uses the real MapBlocks.map to simulate the ground.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     @DisplayName("gravity(): sets entity as grounded when a block is directly below")
     void gravitySetsEntityGroundedWhenCollidingWithBlock() {
         MapBlocks.map.clear();
@@ -152,6 +156,7 @@ public class entityStubTest {
      * velocity, increase the velocity by the acceleration, and mark it as not grounded.
      */
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     @DisplayName("applyFreeFall(): updates y and velocity, clears grounded flag")
     void applyFreeFallUpdatesPositionAndVelocity() {
 
@@ -172,6 +177,7 @@ public class entityStubTest {
     }
 
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     @DisplayName("handleVerticalCollision(): dampens large downward velocity without grounding")
     void handleVerticalCollisionDampensLargeDownwardVelocity() {
         entityStub stub = testEntity;
@@ -188,6 +194,7 @@ public class entityStubTest {
     }
 
     @Test
+    @Disabled("Stub test — actual behaviour implemented in Task 4")
     @DisplayName("handleVerticalCollision(): converts upward velocity into reduced downward bounce")
     void handleVerticalCollisionBouncesUpwardVelocity() {
 

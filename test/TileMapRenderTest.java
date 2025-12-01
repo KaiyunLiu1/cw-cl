@@ -19,6 +19,53 @@ public class TileMapRenderTest {
     /** Stub for javafx.scene.canvas.GraphicsContext */
     private static class GraphicsContextStub { }
 
+
+    /** Planned tile types in the future tilemap system. */
+    private enum TileType {
+        TILE_1,
+        TILE_2,
+        EMPTY
+    }
+
+    private static class Tile {
+        final int x;
+        final int y;
+        final int width;
+        final int height;
+        final TileType type;
+
+        Tile(int x, int y, int width, int height, TileType type) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.type = type;
+        }
+    }
+
+    /** Stub tilemap model used only for this test. */
+    private static class TileMap {
+        final List<Tile> tiles;
+        final int width;
+        final int height;
+
+        TileMap(List<Tile> tiles, int width, int height) {
+            this.tiles = tiles;
+            this.width = width;
+            this.height = height;
+        }
+    }
+
+    /** Local stub for the planned TileMapRenderer view class. */
+    private static class TileMapRenderer {
+        TileMapRenderer(Map<TileType, ImageStub> imageMap) {
+            // stub — store images if needed in Task 4
+        }
+
+        void render(GraphicsContextStub gc, TileMap map, double t) {
+            // stub — real JavaFX drawing will be implemented in Task 4
+        }
+    }
     @Test
     @Disabled("Stub test — full JavaFX rendering will be tested in Task 4")
     void render_stub() {
