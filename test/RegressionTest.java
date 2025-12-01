@@ -9,19 +9,15 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * High-level regression test suite for the original Swing (v1) game.
- * <p>
- * These tests exercise cross-class game behaviour (Player, Enemy, Bullet, Map, Camera, Game)
- * so that after refactoring the codebase to an MVC + JavaFX architecture (Task 4),
- * we can re-run the same tests to demonstrate that the behaviour of v1 and v2 is identical.
- * </p>
+ * This is the regression test for Version 1.
+ * These tests exercise cross-class(Player, Enemy, Bullet, Map, Camera, Game) behaviours
  */
 public class RegressionTest {
 
     private BufferedImage dummy;
 
     @BeforeEach
-    void setUpWorld() {
+    void setup() {
         dummy = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
 
         // Player sprites
@@ -62,13 +58,13 @@ public class RegressionTest {
         canvas.player = new Player(100, 300, 3);
     }
 
-    // ---------------------------------------------------------------------
-    // Section 1: Player movement & physics
-    // ---------------------------------------------------------------------
 
-    //  1. Player moves right when D is held
+    /** Section 1: Player movement & physics */
+
+
+    //  1. Player moves right when 'D' is pressed.
     @Test
-    void playerMovesRightWhenDHeld() {
+    void playerMovesRightWhenDPressed() {
         Player p = canvas.player;
         int startX = p.x;
 
@@ -76,12 +72,12 @@ public class RegressionTest {
 
         for (int i = 0; i < 20; i++) p.update();
 
-        assertTrue(p.x > startX, "Holding D should move the player to the right.");
+        assertTrue(p.x > startX, "Pressing D and the player will move right.");
     }
 
-    //  2. Player moves left when A is held
+    //  2. Player moves left when 'A' is pressed.
     @Test
-    void playerMovesLeftWhenAHeld() {
+    void playerMovesLeftWhenAPressed() {
         Player p = canvas.player;
         p.x = 400;
         int startX = p.x;
@@ -90,10 +86,10 @@ public class RegressionTest {
 
         for (int i = 0; i < 20; i++) p.update();
 
-        assertTrue(p.x < startX, "Holding A should move the player to the left.");
+        assertTrue(p.x < startX, "Pressing A and the player will move left.");
     }
 
-    //  3. Player jump (upward movement must occur at some point)
+    //  3. Player jump upward when 'W' is pressed.
     @Test
     void playerJumpsUpwardsWhenWPressed() {
         Player p = canvas.player;
@@ -104,7 +100,6 @@ public class RegressionTest {
         int startY = p.y;
         int minY = p.y;
 
-        // Simulate a jump; this matches the v1 behaviour of the entity jump logic
         p.jump();
         p.jumpCounter += 2;
         canvas.keysPressed[2] = true;
@@ -126,22 +121,20 @@ public class RegressionTest {
         int startY = p.y;
         for (int i = 0; i < 20; i++) p.update();
 
-        assertTrue(p.y > startY, "Without ground under the player, gravity should pull them down.");
+        assertTrue(p.y > startY, "Gravity should pull players down when they don't reach ground.");
     }
 
-    //  5. Player eventually lands on ground and becomes grounded
+    //  5. Player becomes grounded
     @Test
     void playerStopsOnGround() {
         Player p = new Player(300, 100, 3);
         canvas.player = p;
 
-        MapBlocks.map.clear();
         MapBlocks ground = new MapBlocks(dummy, 300, 200);
-        MapBlocks.map.add(ground);
 
         for (int i = 0; i < 60; i++) p.update();
 
-        assertTrue(p.isGrounded, "Player should eventually become grounded when landing on a block.");
+        assertTrue(p.isGrounded, "Player should become grounded when landing on a block.");
     }
 
     //  6. Facing while idle uses last movement direction
@@ -157,9 +150,8 @@ public class RegressionTest {
                 "When no keys are pressed, the player should face the last movement direction.");
     }
 
-    // ---------------------------------------------------------------------
-    // Section 2: Player combat & health
-    // ---------------------------------------------------------------------
+    /**
+    *Section 2: Player combat & health*/
 
     //  7. Shooting spawns a bullet and consumes ammo
     @Test
@@ -189,7 +181,7 @@ public class RegressionTest {
         int bulletsAfterSecondTry = canvas.activeBullets.size();
 
         assertEquals(bulletsAfterFirstShot, bulletsAfterSecondTry,
-                "Player must not fire again during the cooldown period.");
+                "Player can't fire again during the cooldown period.");
     }
 
     //  9. Player damage applies health loss, knockback and cooldown
@@ -227,9 +219,9 @@ public class RegressionTest {
                 "Killing the player should respawn a new Player instance.");
     }
 
-    // ---------------------------------------------------------------------
-    // Section 3: Bullet behaviour
-    // ---------------------------------------------------------------------
+    /**
+    *Section 3: Bullet behaviour*/
+
 
     // 11. Bullet is removed after travelling its maximum distance
     @Test
@@ -274,9 +266,9 @@ public class RegressionTest {
                 "Enemy health should decrease when hit by a bullet.");
     }
 
-    // ---------------------------------------------------------------------
-    // Section 4: Enemy behaviour & damage
-    // ---------------------------------------------------------------------
+   /**
+    *Section 4: Enemy behaviour & damage
+    */
 
     // 13. Enemy remains idle when player is far away
     @Test
@@ -298,7 +290,7 @@ public class RegressionTest {
     //     (right side, left side, and very close)
     @Test
     void enemyAdjustsMovementAndFacingRelativeToPlayer() {
-        // Shared setup: no map blocks interfering with horizontal movement
+        //no map blocks interfering with horizontal movement
         MapBlocks.map.clear();
 
         Player p = new Player(300, 300, 3);
@@ -308,8 +300,8 @@ public class RegressionTest {
         canvas.enemies.clear();
         canvas.enemies.add(e);
 
-        // -------- Case 1: Enemy to the right of the player (p.x < x) --------
-        // Expect: enemy moves left, facing backwards (isFacingForwards = false)
+        // Case 1: Enemy to the right of the player (p.x < x)
+        // Expect: enemy moves left, facing backwards
 
         e.x = 500;
         p.x = 300;
@@ -325,8 +317,8 @@ public class RegressionTest {
         assertFalse(e.isFacingForwards,
                 "Enemy on the right should face left (isFacingForwards = false).");
 
-        // -------- Case 2: Enemy to the left of the player (p.x > x) --------
-        // Expect: enemy moves right, facing forwards (isFacingForwards = true)
+        // Case 2: Enemy to the left of the player (p.x > x)
+        // Expect: enemy moves right, facing forwards
 
         e.x = 300;
         p.x = 500;
@@ -342,8 +334,8 @@ public class RegressionTest {
         assertTrue(e.isFacingForwards,
                 "Enemy on the left should face right (isFacingForwards = true).");
 
-        // -------- Case 3: Enemy very close to the player --------
-        // Expect: horizontal speed is reset to zero when |x - p.x| < 20
+        // Case 3: Enemy very close to the player
+        // Expect: speed is reset to zero when |x - p.x| < 20
 
         p.x = 300;
         e.x = 315;       // |x - p.x| = 15 < 20
@@ -355,7 +347,7 @@ public class RegressionTest {
                 "Enemy speed should be zero when it is very close to the player.");
     }
 
-    // 15. Enemy takes damage and is removed on death
+    // 15. Enemy takes damage and is removed when dead
     @Test
     void enemyDamageAndDeathRemovesFromList() {
         Enemy e = new Enemy(200, 300, 1);
@@ -373,10 +365,10 @@ public class RegressionTest {
     }
 
     // 16. Enemy state transitions
-    // Although this test focuses on the Enemy state machine,
-    // it is used as a regression check to ensure that the enemy's
-    // visible behaviour (walking, running, aerial) remains consistent
-    // after the refactoring to MVC + JavaFX.
+    /** Although this test focuses on the Enemy state machine,
+    * it is used as a regression check to ensure that the enemy's
+    *visible behaviour (walking, running, aerial) remains consistent
+    *after refactoring.*/
     @Test
     void enemyAnimationStateTransitionsCorrectly() {
         Enemy e = new Enemy(400, 300, 2);
@@ -395,9 +387,8 @@ public class RegressionTest {
         assertEquals("aerial", e.state.state);
     }
 
-    // ---------------------------------------------------------------------
-    // Section 5: World, map, camera & win condition
-    // ---------------------------------------------------------------------
+    /**  Section 5: World, map, camera & win condition
+   */
 
     // 17. Reaching the tunnel triggers the win condition
     @Test
@@ -412,9 +403,9 @@ public class RegressionTest {
     }
 
     // 18. MapBlocks parsing from a small in-memory layout
-    // This regression test uses a small fake map string to ensure that
-    // the tile parsing logic (character -> tile instance) still works
-    // after refactoring, without depending on the file system.
+    /** This regression test uses a small fake map string to ensure that
+    * the tile parsing logic (character -> tile instance) still works
+    * after refactoring, without depending on the file system. */
     @Test
     void mapBlocksLoadsCorrectTileLayout() {
         String fakeMap = "10101\n00000\n";
@@ -444,7 +435,7 @@ public class RegressionTest {
         }
 
         assertEquals(3, MapBlocks.map.size(),
-                "Only tiles marked with '1' should create map blocks.");
+                " Tiles marked with '0' shouldn't create map blocks.");
     }
 
     // 19. Camera follows the player and respects map boundaries
