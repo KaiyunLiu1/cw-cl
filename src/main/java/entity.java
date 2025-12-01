@@ -15,7 +15,7 @@ public class entity {
     protected boolean isGrounded = false;
     /** horizontal movement speed of the entity */
     protected int speed = 0;
-    /** a image representing the entity */
+    /** an image representing the entity */
     protected Image image;
     protected int x;
     protected int y;
