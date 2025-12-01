@@ -131,6 +131,7 @@ public class RegressionTest {
         canvas.player = p;
 
         MapBlocks ground = new MapBlocks(dummy, 300, 200);
+        MapBlocks.map.add(ground);
 
         for (int i = 0; i < 60; i++) p.update();
 
