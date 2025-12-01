@@ -7,10 +7,6 @@ import java.time.Duration;
  * keyboard input handling, shooting control, death tracking,
  * and sprite-based animations for different states.
  * </p>
- *
- * @author Max L. Wilson
- * @author Kaiyun Liu
- * @version %G%
  */
 public class Player extends entity {
     protected Point checkPoint = new Point(20, 300);
