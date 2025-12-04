@@ -21,7 +21,7 @@ In the game, you navigate a level, avoiding obstacles and zombies and tracking y
    ```
 
 ## Gameplay Preview
-- Use WACD to move.
+- Use WASD to move.
 - You can double jump.
 - Use space to shoot.
 - Press escape to restart.

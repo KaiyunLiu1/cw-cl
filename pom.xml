@@ -27,6 +27,12 @@
             <version>5.6.0</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -59,8 +65,14 @@
                 </executions>
             </plugin>
 
-
-
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>uk.ac.nott.cs.comp2013.app.CyborgPlatformFX </mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
