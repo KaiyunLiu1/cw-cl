@@ -155,7 +155,7 @@ public class EnemyStubTest {
     @Test
     @Disabled("Stub test — actual behaviour implemented in Task 4")
     void applyDamageSlowdownUnchanged(){
-    // When not damaged → speed should remain unchanged
+        // When not damaged → speed should remain unchanged
         testEnemy.isDamaged = false;
         testEnemy.speed = 10;
 

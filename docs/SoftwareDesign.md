@@ -61,5 +61,6 @@ The arrow notation follows the same legend used in Version 1 diagram.
 
 
 
-# Version 3
-Lets add new features one day.
+# Version 3 (Current JavaFX MVC)
+
+

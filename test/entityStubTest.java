@@ -48,7 +48,7 @@ public class entityStubTest {
          * @return distance between (x, y) and (targetX, targetY)
          */
         public double distanceTo(int targetX, int targetY) {
-          return distance;
+            return distance;
         }
 
         /**intersect() will be refactored in task 4.*/
